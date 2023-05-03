@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hm10_interface/views/bluetooth/bluetooth_list.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'home.dart';
@@ -19,7 +20,7 @@ class _SplashState extends State<Splash> {
   }
 
   Future<void> _getStatuses() async {
-    Map<Permission, PermissionStatus> statuses = await [
+    await [
       Permission.bluetooth,
       Permission.bluetoothAdvertise,
       Permission.bluetoothConnect,
@@ -32,7 +33,7 @@ class _SplashState extends State<Splash> {
         await Permission.bluetoothConnect.isGranted &&
         await Permission.bluetoothAdvertise.isGranted &&
         await Permission.bluetooth.isGranted) {
-      Get.to(() => const Home());
+      Get.to(() => const BluetoothList());
     }
   }
 

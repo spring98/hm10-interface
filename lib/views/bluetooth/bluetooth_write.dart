@@ -1,3 +1,7 @@
+// ignore_for_file: prefer_const_constructors, avoid_print, avoid_unnecessary_containers
+
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:get/get.dart';
@@ -21,18 +25,12 @@ class _BluetoothWriteState extends State<BluetoothWrite> {
     deviceId: Constants.deviceID,
   );
 
-  String sendData = '';
-  List<String> sendDataList = [
-    'a',
-    'b',
-    'c',
-    'd',
-    'asdfasdfdfklweufhl;weihfiwefliwehlfiwehfdfdsfsdfsdfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdsfdsfdsf'
-  ];
-
   List<ChatModel> chatModelList = [];
   TextEditingController textEditingController = TextEditingController();
+  ScrollController scrollController = ScrollController();
   NumberFormat intFormat = NumberFormat('00');
+  bool isEditing = false;
+  String data = '';
 
   @override
   void initState() {
@@ -47,54 +45,146 @@ class _BluetoothWriteState extends State<BluetoothWrite> {
       // print('event: $event');
 
       ChatModel chatModel = ChatModel(
-          chat: chat.substring(0, chat.length - 1),
+          chat: chat.substring(0, chat.length - 2),
           userName: Constants.deviceNAME,
           time:
               '${intFormat.format(DateTime.now().hour)}:${intFormat.format(DateTime.now().minute)}:${intFormat.format(DateTime.now().second)}',
           isUser: false);
       chatModelList.add(chatModel);
       print(chatModelList);
+      scrollController.animateTo(
+          scrollController.position.maxScrollExtent + 65.h,
+          duration: Duration(milliseconds: 100),
+          curve: Curves.ease);
       setState(() {});
     });
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
+    scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(),
       backgroundColor: Color(0xFF9BBBD4),
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              _stringButton('HELLO WORLD!\n'),
-              const Expanded(child: SizedBox()),
-              for (int i = 0; i < chatModelList.length; i++) ...[
-                _chat(i),
-                SizedBox(height: 10.h),
+        child: SizedBox(
+          height: 600.h,
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              children: [
+                _stringButton('HELLO WORLD!\n'),
+                // const Expanded(child: SizedBox()),
+                for (int i = 0; i < chatModelList.length; i++) ...[
+                  _chat(i),
+                  SizedBox(height: 10.h),
+                ],
               ],
-              TextField(
-                controller: textEditingController,
-                onSubmitted: (data) async {
-                  setState(() {
-                    sendData = data;
-                    sendDataList.add(data);
-                    ChatModel chatModel = ChatModel(
-                        chat: data,
-                        userName: '',
-                        time:
-                            '${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}',
-                        isUser: true);
-                    chatModelList.add(chatModel);
-                  });
-                  List<int> valueList = ('$data\n').codeUnits;
-                  await flutterReactiveBle.writeCharacteristicWithResponse(
-                    characteristic,
-                    value: valueList,
-                  );
-                },
-              )
-            ],
+            ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 5.h, top: 5.h),
+        color: Colors.white,
+        child: Row(
+          children: [
+            SizedBox(width: 10.w),
+            Expanded(
+              child: Container(
+                // width: double.infinity,
+                // width: 100,
+                height: 35.h,
+                child: TextFormField(
+                  cursorHeight: 18.h,
+                  controller: textEditingController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 10.w),
+                    suffixIcon: isEditing
+                        ? InkWell(
+                            onTap: () async {
+                              ChatModel chatModel = ChatModel(
+                                  chat: data,
+                                  userName: '',
+                                  time:
+                                      '${intFormat.format(DateTime.now().hour)}:${intFormat.format(DateTime.now().minute)}:${intFormat.format(DateTime.now().second)}',
+                                  isUser: true);
+                              chatModelList.add(chatModel);
+
+                              List<int> valueList = ('$data\n').codeUnits;
+                              await flutterReactiveBle
+                                  .writeCharacteristicWithResponse(
+                                characteristic,
+                                value: valueList,
+                              );
+
+                              scrollController.animateTo(
+                                  scrollController.position.maxScrollExtent +
+                                      40.h,
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.ease);
+
+                              textEditingController.clear();
+                              isEditing = false;
+                              setState(() {});
+                            },
+                            child: Container(
+                              margin: EdgeInsets.all(5.w),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFFEF01B),
+                              ),
+                              child: Icon(
+                                Icons.arrow_upward,
+                                color: Colors.black,
+                              ),
+                            ),
+                          )
+                        : Container(margin: EdgeInsets.all(5.w)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.black12,
+                  ),
+                  onFieldSubmitted: (data) async {},
+                  onChanged: (data) {
+                    this.data = data;
+                    if (data.isNotEmpty) {
+                      isEditing = true;
+                    } else {
+                      isEditing = false;
+                    }
+                    setState(() {});
+                  },
+                ),
+              ),
+            ),
+            SizedBox(width: 10.w),
+          ],
         ),
       ),
     );
