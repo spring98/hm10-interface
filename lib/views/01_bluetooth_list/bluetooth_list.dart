@@ -33,44 +33,6 @@ class _BluetoothListState extends State<BluetoothList> {
     );
   }
 
-  Widget _scan() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Container(
-            alignment: Alignment.center,
-            width: 100,
-            height: 70,
-            color: Color(0xFF51B263).withOpacity(0.3),
-            child: Text('기기연결'),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            bluetoothViewModel.scan();
-          },
-          child: Container(
-            alignment: Alignment.center,
-            width: 100,
-            height: 70,
-            color: Color(0xFF51B263),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.search),
-                Text(
-                  'scan',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _cardList() {
     return GetBuilder<BluetoothViewModel>(builder: (_) {
       double height = MediaQuery.of(context).size.height -
@@ -126,19 +88,27 @@ class _BluetoothListState extends State<BluetoothList> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          _.deviceMap[deviceId].toString() == ''
-                              ? '알 수 없는 장치'
-                              : _.deviceMap[deviceId].toString(),
-                          style: _.deviceMap[deviceId].toString() == ''
-                              ? k12w400.copyWith(color: Colors.black45)
-                              : k12w400,
+                        SizedBox(
+                          width: 120.w,
+                          child: Text(
+                            _.deviceMap[deviceId].toString() == ''
+                                ? '알 수 없는 장치'
+                                : _.deviceMap[deviceId].toString(),
+                            style: _.deviceMap[deviceId].toString() == ''
+                                ? k12w400.copyWith(color: Colors.black45)
+                                : k12w400,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        Text(
-                          deviceId,
-                          style: _.deviceMap[deviceId].toString() == ''
-                              ? k12w400.copyWith(color: Colors.black45)
-                              : k12w400,
+                        SizedBox(
+                          width: 120.w,
+                          child: Text(
+                            deviceId,
+                            style: _.deviceMap[deviceId].toString() == ''
+                                ? k12w400.copyWith(color: Colors.black45)
+                                : k12w400,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -205,5 +175,43 @@ class _BluetoothListState extends State<BluetoothList> {
         ),
       );
     });
+  }
+
+  Widget _scan() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Container(
+            alignment: Alignment.center,
+            width: 100,
+            height: 70,
+            color: Color(0xFF51B263).withOpacity(0.3),
+            child: Text('기기연결'),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            bluetoothViewModel.scan();
+          },
+          child: Container(
+            alignment: Alignment.center,
+            width: 100,
+            height: 70,
+            color: Color(0xFF51B263),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.search),
+                Text(
+                  'scan',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

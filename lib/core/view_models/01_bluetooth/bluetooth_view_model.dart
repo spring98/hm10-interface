@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:get/get.dart';
 import 'package:hm10_interface/utils/constants/kAlert.dart';
@@ -18,12 +19,22 @@ enum BluetoothStatus {
 class BluetoothViewModel extends GetxController {
   final flutterReactiveBle = FlutterReactiveBle();
   late StreamSubscription<ConnectionStateUpdate> connection;
+  StreamSubscription<DiscoveredDevice>? discoveredDeviceStream;
   Map<String, String> deviceMap = <String, String>{};
 
   String deviceId = '';
   String deviceName = '';
-  String deviceService = '0000ffe0-0000-1000-8000-00805f9b34fb';
-  String deviceCharacteristic = '0000ffe1-0000-1000-8000-00805f9b34fb';
+  // String deviceService = '0000ffe0-0000-1000-8000-00805f9b34fb';
+  // String deviceCharacteristic = '0000ffe1-0000-1000-8000-00805f9b34fb';
+  // String deviceService = 'FFE0';
+  // String deviceCharacteristic = 'FFE1';
+
+  String deviceService = defaultTargetPlatform == TargetPlatform.android
+      ? '0000ffe0-0000-1000-8000-00805f9b34fb'
+      : 'FFE0';
+  String deviceCharacteristic = defaultTargetPlatform == TargetPlatform.android
+      ? '0000ffe1-0000-1000-8000-00805f9b34fb'
+      : 'FFE1';
 
   BluetoothStatus status = BluetoothStatus.DISCONNECT;
 
@@ -37,8 +48,11 @@ class BluetoothViewModel extends GetxController {
   String chatData = '';
 
   void scan() {
+    // 구독을 취소하지 않고 다시 구독하며 에러가 발생한다.
+    discoveredDeviceStream?.cancel();
+
     deviceMap = {};
-    flutterReactiveBle.scanForDevices(
+    discoveredDeviceStream = flutterReactiveBle.scanForDevices(
         withServices: [], scanMode: ScanMode.lowLatency).listen((device) {
       deviceMap[device.id] = device.name;
       update();
@@ -78,6 +92,7 @@ class BluetoothViewModel extends GetxController {
   }
 
   void subscribe() {
+    print('subscribe');
     chatModelList = [];
     flutterReactiveBle
         .subscribeToCharacteristic(getCharacteristic())

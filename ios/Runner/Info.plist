@@ -2,6 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+    <key>NSLocationUsageDescription</key>
+    <string>Older devices need location.</string>
+
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Need location when in use</string>
+
+
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>앱 사용중에 블루투스를 사용합니다.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>앱 사용중에 블루투스를 사용합니다.</string>
+
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_dartobservatory._tcp</string>
+    </array>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
