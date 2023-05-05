@@ -1,5 +1,3 @@
-import 'package:hm10_interface/models/specimen_model.dart';
-
 class ChatModel {
   final String chat;
   final String userName;
