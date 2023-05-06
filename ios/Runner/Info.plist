@@ -20,18 +20,24 @@
         <string>_dartobservatory._tcp</string>
     </array>
 
+
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>Hm10 Interface</string>
+
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+
+
+    <key>CFBundleDisplayName</key>
+	<string>아이디어뱅크 교육</string>
 	<key>CFBundleName</key>
-	<string>hm10_interface</string>
+	<string>아이디어뱅크 교육</string>
+
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

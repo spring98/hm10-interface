@@ -28,144 +28,149 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: kAppBarHome(bluetoothViewModel.deviceName),
-      // backgroundColor: Color(0xFFBAD1E6),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(5.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                color: Colors.grey,
-                child: Image.asset('images/hm10.png', fit: BoxFit.fill),
-                height: 200.h,
-              ),
-              SizedBox(height: 5.w),
-              Row(
-                children: [
-                  Expanded(
-                    child: Card(
-                      margin: EdgeInsets.all(0),
-                      // child: Container(
+    return WillPopScope(
+      onWillPop: () {
+        return Future(() => false);
+      },
+      child: Scaffold(
+        appBar: kAppBarHome(bluetoothViewModel.deviceName),
+        // backgroundColor: Color(0xFFBAD1E6),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(5.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  color: Colors.grey,
+                  child: Image.asset('images/hm10.png', fit: BoxFit.fill),
+                  height: 200.h,
+                ),
+                SizedBox(height: 5.w),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Card(
+                        margin: EdgeInsets.all(0),
+                        // child: Container(
 
-                      color: colors[0],
-                      child: InkWell(
-                        onTap: () {
-                          Get.to(() => BluetoothSerial());
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 120.h,
-                          // color: Color(0xFFF3B45F),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 50.w,
-                                height: 50.w,
-                                child: Image.asset('images/message.png',
-                                    fit: BoxFit.fill),
-                              ),
-                              SizedBox(width: 10.w),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('블루투스',
-                                      style: TextStyle(
-                                          color: textColor, fontSize: 15.sp)),
-                                  SizedBox(height: 5.h),
-                                  Text('시리얼 통신',
-                                      style: TextStyle(
-                                          color: textColor, fontSize: 15.sp)),
-                                ],
-                              ),
-                            ],
+                        color: colors[0],
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(() => BluetoothSerial());
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 120.h,
+                            // color: Color(0xFFF3B45F),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 50.w,
+                                  height: 50.w,
+                                  child: Image.asset('images/message.png',
+                                      fit: BoxFit.fill),
+                                ),
+                                SizedBox(width: 10.w),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('블루투스',
+                                        style: TextStyle(
+                                            color: textColor, fontSize: 15.sp)),
+                                    SizedBox(height: 5.h),
+                                    Text('시리얼 통신',
+                                        style: TextStyle(
+                                            color: textColor, fontSize: 15.sp)),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 5.w),
-                  Expanded(
-                    child: Card(
-                      margin: EdgeInsets.all(0),
-                      // child: Container(
-                      color: colors[1],
-                      child: InkWell(
-                        onTap: () {
-                          alert('기능 구현 중 입니다.');
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 120.h,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // Icon(Icons.messenger_outlined, color: textColor),
-                              SizedBox(
-                                width: 50.w,
-                                height: 50.w,
-                                child: Image.asset('images/joy_stick.png',
-                                    fit: BoxFit.fill),
-                              ),
-                              SizedBox(width: 10.w),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('블루투스',
-                                      style: TextStyle(
-                                          color: textColor, fontSize: 15.sp)),
-                                  SizedBox(height: 5.h),
-                                  Text('RC카 통신',
-                                      style: TextStyle(
-                                          color: textColor, fontSize: 15.sp)),
-                                ],
-                              ),
-                            ],
+                    SizedBox(width: 5.w),
+                    Expanded(
+                      child: Card(
+                        margin: EdgeInsets.all(0),
+                        // child: Container(
+                        color: colors[1],
+                        child: InkWell(
+                          onTap: () {
+                            alert('기능 구현 중 입니다.');
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 120.h,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Icon(Icons.messenger_outlined, color: textColor),
+                                SizedBox(
+                                  width: 50.w,
+                                  height: 50.w,
+                                  child: Image.asset('images/joy_stick.png',
+                                      fit: BoxFit.fill),
+                                ),
+                                SizedBox(width: 10.w),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('블루투스',
+                                        style: TextStyle(
+                                            color: textColor, fontSize: 15.sp)),
+                                    SizedBox(height: 5.h),
+                                    Text('RC카 통신',
+                                        style: TextStyle(
+                                            color: textColor, fontSize: 15.sp)),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 5.w),
-              Expanded(
-                child: Card(
-                  // child: Container(
+                  ],
+                ),
+                SizedBox(height: 5.w),
+                Expanded(
+                  child: Card(
+                    // child: Container(
 
-                  color: colors[2],
-                  margin: EdgeInsets.all(0),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(() => ReferenceCodes());
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 100.h,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                              width: 50.w,
-                              height: 50.w,
-                              child: Image.asset('images/audit.png',
-                                  fit: BoxFit.fill)),
-                          SizedBox(width: 10.w),
-                          Text('참고 코드',
-                              style:
-                                  TextStyle(color: textColor, fontSize: 15.sp)),
-                        ],
+                    color: colors[2],
+                    margin: EdgeInsets.all(0),
+                    child: InkWell(
+                      onTap: () {
+                        Get.to(() => ReferenceCodes());
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 100.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                                width: 50.w,
+                                height: 50.w,
+                                child: Image.asset('images/audit.png',
+                                    fit: BoxFit.fill)),
+                            SizedBox(width: 10.w),
+                            Text('참고 코드',
+                                style: TextStyle(
+                                    color: textColor, fontSize: 15.sp)),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
