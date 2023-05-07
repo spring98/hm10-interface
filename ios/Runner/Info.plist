@@ -4,23 +4,19 @@
 <dict>
 
     <key>NSLocationUsageDescription</key>
-    <string>Older devices need location.</string>
-
+    <string>블루투스 스캔을 위해 위치정보를 사용합니다.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Need location when in use</string>
-
+    <string>블루투스 스캔을 위해 위치정보를 사용합니다.</string>
 
     <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>앱 사용중에 블루투스를 사용합니다.</string>
+    <string>아두이노의 블루투스와 아이폰의 통신을 위한 블루투스 권한이 필요합니다.</string>
     <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>앱 사용중에 블루투스를 사용합니다.</string>
+    <string>아두이노의 블루투스와 아이폰의 통신을 위한 블루투스 권한이 필요합니다.</string>
 
     <key>NSBonjourServices</key>
     <array>
         <string>_dartobservatory._tcp</string>
     </array>
-
-
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
