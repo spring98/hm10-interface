@@ -9,6 +9,7 @@ void main() {
       designSize: const Size(360, 640),
       builder: (context, child) {
         return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
           home: child,
         );
       },
