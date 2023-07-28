@@ -33,6 +33,7 @@ class _BluetoothSerialState extends State<BluetoothSerial> {
   void dispose() {
     super.dispose();
     bluetoothViewModel.controllersDispose();
+    bluetoothViewModel.subscribeClear();
   }
 
   @override

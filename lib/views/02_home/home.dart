@@ -6,6 +6,7 @@ import 'package:hm10_interface/utils/constants/kAlert.dart';
 import 'package:hm10_interface/utils/constants/kAppBar.dart';
 import 'package:hm10_interface/utils/constants/kColor.dart';
 import 'package:hm10_interface/views/02_home/01_bluetooth_serial/bluetooth_serial.dart';
+import 'package:hm10_interface/views/02_home/02_bluetooth_iot_control/bluetooth_iot_control.dart';
 import 'package:hm10_interface/views/02_home/03_reference_codes/reference_codes.dart';
 import '../01_bluetooth_list/bluetooth_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +45,7 @@ class _HomeState extends State<Home> {
                 Container(
                   color: Colors.grey,
                   child: Image.asset('images/hm10.png', fit: BoxFit.fill),
-                  height: 200.h,
+                  height: 250.h,
                 ),
                 SizedBox(height: 5.w),
                 Row(
@@ -100,7 +101,7 @@ class _HomeState extends State<Home> {
                         color: colors[1],
                         child: InkWell(
                           onTap: () {
-                            alert('기능 구현 중 입니다.');
+                            Get.to(() => BluetoothIotControl());
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -124,7 +125,7 @@ class _HomeState extends State<Home> {
                                         style: TextStyle(
                                             color: textColor, fontSize: 15.sp)),
                                     SizedBox(height: 5.h),
-                                    Text('RC카 통신',
+                                    Text('IoT 컨트롤',
                                         style: TextStyle(
                                             color: textColor, fontSize: 15.sp)),
                                   ],

@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.spring.hm10_interface">
-   <application
+    <uses-permission android:name="android.permission.BLUETOOTH" tools:remove="android:maxSdkVersion" />
+    <application
         android:label="아이디어뱅크 교육앱"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

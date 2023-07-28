@@ -4,6 +4,8 @@ import 'package:hm10_interface/utils/constants/kAppBar.dart';
 import 'package:hm10_interface/utils/constants/kFont.dart';
 import 'package:hm10_interface/views/01_bluetooth_list/bluetooth_list.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -47,18 +49,21 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
   }
 
   Future<bool> checkPermissions() async {
-    await [
-      Permission.bluetooth,
-      Permission.location,
-    ].request();
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      await [
+        Permission.bluetooth,
+        Permission.bluetoothScan,
+        Permission.bluetoothConnect,
+        Permission.location,
+      ].request();
+    }
 
-    // if (await Permission.location.isDenied ||
-    //     await Permission.bluetooth.isDenied) {
-    //   await [
-    //     Permission.bluetooth,
-    //     Permission.location,
-    //   ].request();
-    // }
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      await [
+        Permission.bluetooth,
+        Permission.location,
+      ].request();
+    }
 
     if (await Permission.location.isGranted &&
         await Permission.bluetooth.isGranted) {

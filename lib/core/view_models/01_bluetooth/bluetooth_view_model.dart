@@ -21,6 +21,7 @@ class BluetoothViewModel extends GetxController {
   late StreamSubscription<ConnectionStateUpdate> connection;
   StreamSubscription<DiscoveredDevice>? discoveredDeviceStream;
   Map<String, String> deviceMap = <String, String>{};
+  late StreamSubscription<List<int>> subscribeInstance;
 
   String deviceId = '';
   String deviceName = '';
@@ -57,6 +58,7 @@ class BluetoothViewModel extends GetxController {
       deviceMap[device.id] = device.name;
       update();
     }, onError: (e) {
+      print(e);
       alert(e.toString());
     });
   }
@@ -94,7 +96,7 @@ class BluetoothViewModel extends GetxController {
   void subscribe() {
     print('subscribe');
     chatModelList = [];
-    flutterReactiveBle
+    subscribeInstance = flutterReactiveBle
         .subscribeToCharacteristic(getCharacteristic())
         .listen((event) {
       String chat = String.fromCharCodes(event);
@@ -117,6 +119,35 @@ class BluetoothViewModel extends GetxController {
     });
   }
 
+  String temp = '';
+  String humidity = '';
+  void subscribeIoT() {
+    print('subscribe');
+    subscribeInstance = flutterReactiveBle
+        .subscribeToCharacteristic(getCharacteristic())
+        .listen((event) {
+      String chat = String.fromCharCodes(event);
+
+      // print('string: $chat');
+      print(chat.substring(0, chat.length - 2));
+      chat = chat.substring(0, chat.length - 2);
+      try {
+        List<String> tempHumid = chat.split(',');
+        print(tempHumid);
+        temp = tempHumid[0];
+        humidity = tempHumid[1];
+      } catch (e) {
+        alert('숫자,숫자 형태로 입력하세요.\n 예시) 30,80');
+      }
+
+      update();
+    });
+  }
+
+  void subscribeClear() {
+    subscribeInstance.cancel();
+  }
+
   Future<void> write() async {
     ChatModel chatModel = ChatModel(
         chat: chatData,
@@ -137,6 +168,16 @@ class BluetoothViewModel extends GetxController {
 
     textEditingController.clear();
     isEditing = false;
+    update();
+  }
+
+  Future<void> writeIoT(String data) async {
+    List<int> valueList = ('$data\n').codeUnits;
+    await flutterReactiveBle.writeCharacteristicWithResponse(
+      getCharacteristic(),
+      value: valueList,
+    );
+
     update();
   }
 
